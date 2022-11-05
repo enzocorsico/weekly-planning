@@ -33,4 +33,3 @@ services:
       - ./.env
     ports:
       - ${PORT_API}:3000
-
