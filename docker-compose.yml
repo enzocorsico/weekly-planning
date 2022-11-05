@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  mysql:
+    container_name: mysql
+    image: mysql
+    volumes:
+      - ./bdd:/var/lib/mysql
+    env_file:
+      - ./.env
+    ports:
+      - ${PORT_MYSQL}
+  
+  adminer:
+    container_name: adminer
+    image: adminer
+    depends_on:
+      - mysql
+    ports:
+      - ${PORT_ADMINER}:8080
+
+  nestjs:
+    container_name: nestjs
+    build:
+      context: back
+    command: ["npm", "run", "start:dev"]
+    volumes:
+      - ./back:/app
+      - /app/node_modules
+    depends_on:
+      - mysql
+    env_file:
+      - ./.env
+    ports:
+      - ${PORT_API}:3000
+
