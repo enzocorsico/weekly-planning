@@ -4,19 +4,11 @@ const nextConfig = {
     appDir: true,
   },
 
-  // webpack: (config, context) => {
-  //   config.watchOptions = {
-  //     poll: 1000,
-  //     aggregateTimeout: 300
-  //   }
-  //   return config
-  // },
-
   async rewrites() {
     return [
       {
-        source: '/api/:slug*',
-        destination: process.env.PATH_API + "/:slug*",
+        source: '/api/:path*',
+        destination: process.env.PATH_API + "/:path*",
       }
     ]
   }
