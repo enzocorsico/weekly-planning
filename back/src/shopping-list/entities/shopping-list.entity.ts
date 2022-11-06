@@ -1,5 +1,6 @@
+import { Agenda } from "src/agenda/entities/agenda.entity";
 import { ShoppingItem } from "src/shopping-item/entities/shopping-item.entity";
-import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { BaseEntity, Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class ShoppingList extends BaseEntity {
@@ -14,4 +15,15 @@ export class ShoppingList extends BaseEntity {
         shoppingItem => shoppingItem.shoppingList
     )
     shoppingItems: ShoppingItem[];
+
+    @ManyToOne(
+        type => Agenda,
+        agenda => agenda.shoppingLists,
+        {
+            nullable: false,
+            onDelete: "CASCADE",
+            onUpdate: "CASCADE"
+        }
+    )
+    agenda: Agenda;
 }

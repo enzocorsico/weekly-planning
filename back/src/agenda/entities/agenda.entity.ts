@@ -1,4 +1,5 @@
 import { Note } from "src/note/entities/note.entity";
+import { ShoppingList } from "src/shopping-list/entities/shopping-list.entity";
 import { Task } from "src/task/entities/task.entity";
 import { User } from "src/user/entities/user.entity";
 import { BaseEntity, Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
@@ -25,6 +26,12 @@ export class Agenda extends BaseEntity {
         task => task.agenda
     )
     tasks: Task[];
+
+    @OneToMany(
+        type => ShoppingList,
+        shoppingList => shoppingList.agenda
+    )
+    shoppingLists: ShoppingList[];
 
     @ManyToOne(
         type => User,
