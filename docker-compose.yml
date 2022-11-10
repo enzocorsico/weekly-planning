@@ -33,3 +33,19 @@ services:
       - ./.env
     ports:
       - ${PORT_API}:3000
+
+  nextjs:
+    container_name: nextjs
+    build:
+      context: client
+    command: ["npm", "run", "dev"]
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    depends_on:
+      - nestjs
+    env_file:
+      - ./.env
+    ports:
+      - ${PORT_CLIENT}:3000
+    
