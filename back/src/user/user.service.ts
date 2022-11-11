@@ -1,26 +1,65 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { User } from './entities/user.entity';
 
 @Injectable()
 export class UserService {
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+  async create(createUserDto: CreateUserDto) {
+    try {
+      let user = new User();
+
+      user.email = createUserDto.email;
+      user.password = createUserDto.password;
+      user.lastName = createUserDto.lastName;
+      user.firstName = createUserDto.firstName;
+
+      return await user.save();
+    } catch (e) {
+      return e
+    }
   }
 
   findAll() {
-    return `This action returns all user`;
+    return User.find();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} user`;
+    return User.findOne({
+      where: {
+        id: id
+      }
+    });
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(id: number, updateUserDto: UpdateUserDto) {
+    try {
+      let user = await User.findOne({
+        where: {
+          id: id
+        }
+      })
+
+      user.lastName = updateUserDto.lastName || user.lastName;
+      user.firstName = updateUserDto.firstName || user.firstName;
+
+      return await user.save();
+    } catch (e) {
+      return e
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async remove(id: number) {
+    try {
+      let user = await User.findOne({
+        where: {
+          id: id
+        }
+      })
+
+      return await user.remove();
+    } catch (e) {
+      return e
+    }
   }
 }

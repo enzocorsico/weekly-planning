@@ -7,7 +7,9 @@ export class ShoppingList extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
+    @Column({
+        nullable: false
+    })
     name: string;
 
     @OneToMany(

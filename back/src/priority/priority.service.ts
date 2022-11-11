@@ -1,26 +1,63 @@
 import { Injectable } from '@nestjs/common';
 import { CreatePriorityDto } from './dto/create-priority.dto';
 import { UpdatePriorityDto } from './dto/update-priority.dto';
+import { Priority } from './entities/priority.entity';
 
 @Injectable()
 export class PriorityService {
-  create(createPriorityDto: CreatePriorityDto) {
-    return 'This action adds a new priority';
+  async create(createPriorityDto: CreatePriorityDto) {
+    try {
+      let priority = new Priority();
+
+      priority.name = createPriorityDto.name;
+      priority.rewardPoints = createPriorityDto.rewardPoints;
+
+      return await priority.save();
+    } catch (e) {
+      return e
+    }
   }
 
   findAll() {
-    return `This action returns all priority`;
+    return Priority.find();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} priority`;
+    return Priority.findOne({
+      where: {
+        id: id
+      }
+    });
   }
 
-  update(id: number, updatePriorityDto: UpdatePriorityDto) {
-    return `This action updates a #${id} priority`;
+  async update(id: number, updatePriorityDto: UpdatePriorityDto) {
+    try {
+      let priority = await Priority.findOne({
+        where: {
+          id: id
+        }
+      })
+
+      priority.name = updatePriorityDto.name || priority.name;
+      priority.rewardPoints = updatePriorityDto.rewardPoints || priority.rewardPoints;
+
+      return await priority.save();
+    } catch (e) {
+      return e
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} priority`;
+  async remove(id: number) {
+    try {
+      let priority = await Priority.findOne({
+        where: {
+          id: id
+        }
+      })
+
+      return await priority.remove();
+    } catch (e) {
+      return e
+    }
   }
 }

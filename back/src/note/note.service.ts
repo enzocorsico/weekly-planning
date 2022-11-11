@@ -1,26 +1,69 @@
 import { Injectable } from '@nestjs/common';
+import { Agenda } from 'src/agenda/entities/agenda.entity';
 import { CreateNoteDto } from './dto/create-note.dto';
 import { UpdateNoteDto } from './dto/update-note.dto';
+import { Note } from './entities/note.entity';
 
 @Injectable()
 export class NoteService {
-  create(createNoteDto: CreateNoteDto) {
-    return 'This action adds a new note';
+  async create(createNoteDto: CreateNoteDto) {
+    try {
+      let note = new Note();
+
+      note.name = createNoteDto.name;
+      note.content = createNoteDto.content;
+      note.agenda = await Agenda.findOne({
+        where: {
+          id: createNoteDto.agendaId
+        }
+      })
+
+      return await note.save();
+    } catch (e) {
+      return e
+    }
   }
 
   findAll() {
-    return `This action returns all note`;
+    return Note.find();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} note`;
+    return Note.findOne({
+      where: {
+        id: id
+      }
+    });
   }
 
-  update(id: number, updateNoteDto: UpdateNoteDto) {
-    return `This action updates a #${id} note`;
+  async update(id: number, updateNoteDto: UpdateNoteDto) {
+    try {
+      let note = await Note.findOne({
+        where: {
+          id: id
+        }
+      })
+
+      note.name = updateNoteDto.name || note.name;
+      note.content = updateNoteDto.content || note.content;
+
+      return await note.save();
+    } catch (e) {
+      return e
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} note`;
+  async remove(id: number) {
+    try {
+      let note = await Note.findOne({
+        where: {
+          id: id
+        }
+      })
+
+      return await note.remove();
+    } catch (e) {
+      return e
+    }
   }
 }
