@@ -2,7 +2,7 @@ import { Task } from "src/task/entities/task.entity";
 import { BaseEntity, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
-export class Priority extends BaseEntity {
+export class Type extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
@@ -11,15 +11,9 @@ export class Priority extends BaseEntity {
     })
     name: string;
 
-    @Column({
-        nullable: false,
-        default: 0
-    })
-    rewardPoints: number;
-
     @OneToMany(
         type => Task,
-        task => task.priority
+        task => task.type
     )
     tasks: Task[];
 }

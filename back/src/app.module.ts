@@ -16,6 +16,8 @@ import { ShoppingItemModule } from './shopping-item/shopping-item.module';
 import { ShoppingItem } from './shopping-item/entities/shopping-item.entity';
 import { PriorityModule } from './priority/priority.module';
 import { Priority } from './priority/entities/priority.entity';
+import { TypeModule } from './type/type.module';
+import { Type } from './type/entities/type.entity';
 
 @Module({
   imports: [
@@ -33,7 +35,8 @@ import { Priority } from './priority/entities/priority.entity';
         Task,
         ShoppingList,
         ShoppingItem,
-        Priority
+        Priority,
+        Type
       ],
       synchronize: true
     }),
@@ -43,7 +46,8 @@ import { Priority } from './priority/entities/priority.entity';
     TaskModule,
     ShoppingListModule,
     ShoppingItemModule,
-    PriorityModule
+    PriorityModule,
+    TypeModule
   ],
   controllers: [AppController],
   providers: [AppService],
