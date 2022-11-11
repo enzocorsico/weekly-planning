@@ -1,1 +1,4 @@
-export class UpdateUserDto {}
+export class UpdateUserDto {
+    lastName: string;
+    firstName: string;
+}
