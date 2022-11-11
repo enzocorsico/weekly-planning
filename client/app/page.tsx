@@ -1,7 +1,14 @@
-export default function Home() {
-  return (
-    <div>
-      <h1 className='text-5xl font-bold text-center'>Page d'accueil</h1>
-    </div>
-  )
-}
+import Calendar from "../components/Calendar/Calendar";
+import SideNavBar from "../components/SideNavBar/SideNavBar";
+
+const Home = () => {
+    return (
+        <>
+            <SideNavBar>
+                <Calendar />
+            </SideNavBar>
+        </>
+    );
+};
+
+export default Home;
