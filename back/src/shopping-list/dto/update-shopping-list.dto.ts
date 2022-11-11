@@ -1,1 +1,3 @@
-export class UpdateShoppingListDto {}
+export class UpdateShoppingListDto {
+    name: string;
+}
