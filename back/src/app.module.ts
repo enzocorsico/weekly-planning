@@ -14,6 +14,8 @@ import { ShoppingListModule } from './shopping-list/shopping-list.module';
 import { ShoppingList } from './shopping-list/entities/shopping-list.entity';
 import { ShoppingItemModule } from './shopping-item/shopping-item.module';
 import { ShoppingItem } from './shopping-item/entities/shopping-item.entity';
+import { PriorityModule } from './priority/priority.module';
+import { Priority } from './priority/entities/priority.entity';
 
 @Module({
   imports: [
@@ -30,7 +32,8 @@ import { ShoppingItem } from './shopping-item/entities/shopping-item.entity';
         Note,
         Task,
         ShoppingList,
-        ShoppingItem
+        ShoppingItem,
+        Priority
       ],
       synchronize: true
     }),
@@ -39,7 +42,8 @@ import { ShoppingItem } from './shopping-item/entities/shopping-item.entity';
     NoteModule,
     TaskModule,
     ShoppingListModule,
-    ShoppingItemModule
+    ShoppingItemModule,
+    PriorityModule
   ],
   controllers: [AppController],
   providers: [AppService],

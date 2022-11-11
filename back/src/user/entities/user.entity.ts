@@ -20,6 +20,9 @@ export class User extends BaseEntity {
     @Column()
     firstName: string;
 
+    @Column()
+    rewardPoints: number;
+
     @OneToMany(
         type => Agenda,
         agenda => agenda.user
