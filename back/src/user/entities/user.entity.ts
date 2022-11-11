@@ -20,7 +20,10 @@ export class User extends BaseEntity {
     @Column()
     firstName: string;
 
-    @Column()
+    @Column({
+        nullable: false,
+        default: 0
+    })
     rewardPoints: number;
 
     @OneToMany(

@@ -1,26 +1,93 @@
 import { Injectable } from '@nestjs/common';
+import { User } from 'src/user/entities/user.entity';
 import { CreateAgendaDto } from './dto/create-agenda.dto';
 import { UpdateAgendaDto } from './dto/update-agenda.dto';
+import { Agenda } from './entities/agenda.entity';
 
 @Injectable()
 export class AgendaService {
-  create(createAgendaDto: CreateAgendaDto) {
-    return 'This action adds a new agenda';
+  async create(createAgendaDto: CreateAgendaDto) {
+    try {
+      let agenda = new Agenda();
+      agenda.name = createAgendaDto.name;
+      agenda.description = createAgendaDto.description;
+      agenda.user = await User.findOne({ 
+        where: {
+          id: createAgendaDto.userId
+        },
+        select: {
+          id: true,
+          email: true
+        }
+      });
+
+      return await agenda.save();
+    } catch (e) {
+      return e
+    }
   }
 
   findAll() {
-    return `This action returns all agenda`;
+    return Agenda.find({
+      relations: {
+        notes: true,
+        tasks: {
+          type: true,
+          priority: true
+        },
+        shoppingLists: {
+          shoppingItems: true
+        }
+      }
+    });
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} agenda`;
+    return Agenda.findOne({
+      relations: {
+        notes: true,
+        tasks: {
+          type: true,
+          priority: true
+        },
+        shoppingLists: {
+          shoppingItems: true
+        }
+      },
+      where: {
+        id: id
+      }
+    });
   }
 
-  update(id: number, updateAgendaDto: UpdateAgendaDto) {
-    return `This action updates a #${id} agenda`;
+  async update(id: number, updateAgendaDto: UpdateAgendaDto) {
+    try {
+      let agenda = await Agenda.findOne({
+        where: {
+          id: id
+        }
+      })
+
+      agenda.name = updateAgendaDto.name || agenda.name;
+      agenda.description = updateAgendaDto.description || agenda.description;
+
+      return await agenda.save();
+    } catch (e) {
+      return e
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} agenda`;
+  async remove(id: number) {
+    try {
+      let agenda = await Agenda.findOne({
+        where: {
+          id: id
+        }
+      })
+
+      return await agenda.remove();
+    } catch (e) {
+      return e
+    }
   }
 }

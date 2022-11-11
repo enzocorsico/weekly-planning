@@ -1,5 +1,6 @@
 import { Agenda } from "src/agenda/entities/agenda.entity";
 import { Priority } from "src/priority/entities/priority.entity";
+import { Type } from "src/type/entities/type.entity";
 import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
@@ -10,11 +11,10 @@ export class Task extends BaseEntity {
     @Column()
     name: string;
 
-    @Column()
+    @Column({
+        type: "text"
+    })
     description: string;
-
-    @Column()
-    type: string;
 
     @Column()
     startDate: Date;
@@ -27,6 +27,17 @@ export class Task extends BaseEntity {
         default: false
     })
     isDone: boolean;
+
+    @ManyToOne(
+        type => Type,
+        type => type.tasks,
+        {
+            nullable: false,
+            onDelete: "CASCADE",
+            onUpdate: "CASCADE"
+        }
+    )
+    type: Type;
 
     @ManyToOne(
         type => Priority,
